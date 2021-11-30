@@ -17,61 +17,36 @@
         <header class="mb-4">
             <h1 class="display-1 text-center">CATS & DOGS</h1>
         </header>
-        <div class="row">
-            <ul class="col nav justify-content-end border">
+        <div class="row border-top">
+            <ul class="col nav justify-content-start">
+                <li class="nav-item"><a class="nav-link" href="{% url 'main:index' %}">HOME</a></li>
+            </ul>
+            <ul class="col nav justify-content-end">
                 {% if user.is_authenticated %}
                 {% else %}
-{#                <li class="nav-item"><a class="nav-link" href="{%  url 'main:register' %}">Регистрация</a></li>#}
-                <li class="nav-item"><a class="nav-link" href="#">Регистрация</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'main:register' %}">SignUp</a></li>
                 {% endif %}
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                     href="#" role="button" aria-haspopup="true"
-                    aria-expanded="false">Профиль</a>
+                    aria-expanded="false">Profile({{ user.username }})</a>
                     <div class="dropdown-menu dropdown-menu-right">
-{#                        <div class="dropdown-menu-right">#}
-{#                        <a class="dropdown-item" href="{% url 'main:profile' %}">Мои объявления</a>#}
-                        <a class="dropdown-item" href="#">Мои объявления</a>
-{#                        <a class="dropdown-item" href="{% url 'main:profile_change' %}">Изменить личные данные</a>#}
-                        <a class="dropdown-item" href="#">Изменить личные данные</a>
-{#                        <a class="dropdown-item" href="{% url 'main:password_change' %}">Изменить пароль</a>#}
-                        <a class="dropdown-item" href="#">Изменить пароль</a>
+                        <a class="dropdown-item" href="{% url 'main:profile' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'main:profile_change' %}">Change profile</a>
+                        <a class="dropdown-item" href="{% url 'main:password_change' %}">Change password</a>
                         <div class="dropdown-divider"></div>
-{#                        <a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a>#}
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a>
                         <div class="dropdown-divider"></div>
-{#                        <a class="dropdown-item" href="{% url 'main:profile_delete' %}">Delete profile</a>#}
-                        <a class="dropdown-item" href="#">Delete profile</a>
+                        <a class="dropdown-item" href="{% url 'main:profile_delete' %}">Delete profile</a>
                     </div>
-{#                    </div>#}
                 </li>
                 {% else %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'main:login' %}">Login</a></li>
-{#                <li class="nav-item"><a class="nav-link" href="#">Login</a></li>#}
                 {% endif %}
             </ul>
         </div>
         <div class="row">
-{#            <nav class="col-md-auto nav flex-column border">#}
-{#                <a class="nav-link root" href="#">Главная</a>#}
-{#                <span class="nav-link root font-weight-bold">Недвижимость</span>#}
-{#                <a class="nav-link" href="#">Жилье</a>#}
-{#                <a class="nav-link" href="#">Склады</a>#}
-{#                <a class="nav-link" href="#">Гаражи</a>#}
-{#                <span class="nav-link root font-weight-bold" href="#">Транспорт</span>#}
-{#                <a class="nav-link" href="#">Легковой</a>#}
-{#                <a class="nav-link" href="#">Грузовой</a>#}
-{#                {% for rubric in rubrics %}#}
-{#                {% ifchanged rubric.super_rubrick.pk %}#}
-{#                <span class="nav-link root font_weight-bold">#}
-{#                {{ rubric.super_rubrick.name }}#}
-{#                {% endifchanged %}#}
-{#                </span>#}
-{#                <a class="nav-link root" href="#">{{ rubric.name }}</a>#}
-{#                {% endfor %}#}
-{#                <a class="nav-link root" href="#">О сайте</a>#}
-{#            </nav>#}
             <section class="col border py-2">
                 {% bootstrap_messages %}
                 {% block content %}
