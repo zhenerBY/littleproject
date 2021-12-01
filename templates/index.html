@@ -1,5 +1,19 @@
 {% extends "basic.html" %}
 
 {% block content %}
-    <h2>ЗДЕСЬ БУДУТ КНОПКИ</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <a href="{% url 'main:cats'%}">
+                    <img class="rounded mx-auto d-block" width="500" alt="I LOVE CATS" src="static/ilovecats.jpg">
+                </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'main:other' page='dogs'%}">
+                    <img class="rounded mx-auto d-block" width="500" alt="I LOVE DOGS" src="static/ilovedogs.jpg">
+                </a>
+            </div>
+        </div>
+  </div>
+
 {% endblock %}

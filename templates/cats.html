@@ -1,0 +1,41 @@
+{% extends "basic.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <img class="rounded mx-auto d-block" height="400" alt="CATS" src="{{ cats_url }}">
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col">
+                <p class="text-center">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'main:upload' %}" method="post" class="text-center">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-lg">Save image</button>
+                            <a href="{% url 'main:cats' %}" class="btn btn-secondary btn-lg" role="button"
+                           aria-pressed="true">Next image</a>
+                        </form>
+                    {% else %}
+                        <button type="button" class="btn btn-primary btn-lg" disabled>Save image</button>
+                        <a href="{% url 'main:cats' %}" class="btn btn-secondary btn-lg" role="button"
+                           aria-pressed="true">Next image</a>
+                    {% endif %}
+                </p>
+            </div>
+{#            <div class="col">#}
+{#                <form action="{% url 'main:upload' %}" method="post">#}
+{#                    {% csrf_token %}#}
+{#                    <button type="submit">DATA TRANSFER</button>#}
+{#                </form>#}
+{#            </div>#}
+        </div>
+    </div>
+<br>
+<br>
+<div>{{ user }}</div>
+<div>{{ cats_url }}</div>
+<div>{{ cats_ext }}</div>
+{% endblock %}
