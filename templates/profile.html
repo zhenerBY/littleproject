@@ -11,5 +11,5 @@
 {% else %}
 <p>Hello!</p>
 {% endif %}
-<h2><a href="#">Your images</a></h2>
+<h2><a href={% url "main:pets_list" %}>Your images</a></h2>
 {% endblock %}

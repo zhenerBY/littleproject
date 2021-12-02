@@ -4,9 +4,42 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <p>DOGS</p>
+                <img class="rounded mx-auto d-block" height="400" alt="DOGS" src="{{ dogs_url }}">
             </div>
         </div>
-  </div>
-
+        <p></p>
+        <div class="row">
+            <div class="col">
+                <p class="text-center">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'main:dog_save' %}" method="post" class="text-center">
+                            {% if dogs_save %}
+                                <button type="submit" class="btn btn-primary btn-lg" disabled>Image saved</button>
+                            {% else %}
+                                <input type="hidden" name="pet_url" value="{{ dogs_url }}">
+                                <input type="hidden" name="pet_ext" value="{{ dogs_ext }}">
+                                <input type="hidden" name="pet_type" value="DOG">
+                                <button type="submit" class="btn btn-primary btn-lg">Save image</button>
+                            {% endif %}
+                            {% csrf_token %}
+                            <a href="{% url 'main:dogs' %}" class="btn btn-secondary btn-lg" role="button"
+                           aria-pressed="true">Next image</a>
+                        </form>
+                    {% else %}
+                        <button type="button" class="btn btn-primary btn-lg" disabled>Save image</button>
+                        <a href="{% url 'main:dogs' %}" class="btn btn-secondary btn-lg" role="button"
+                           aria-pressed="true">Next image</a>
+                    {% endif %}
+                </p>
+            </div>
+{#            <div class="col">#}
+{#                <form action="{% url 'main:upload' %}" method="post">#}
+{#                    {% csrf_token %}#}
+{#                    <button type="submit">DATA TRANSFER</button>#}
+{#                </form>#}
+{#            </div>#}
+        </div>
+    </div>
+<br>
+<br>
 {% endblock %}

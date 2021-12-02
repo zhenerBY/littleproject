@@ -1,0 +1,28 @@
+{% extends "basic.html" %}
+
+{% load static %}
+
+{% block title %}Pets list{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% for image in object_list %}
+                <div class="col-md-auto">
+                    <p class="text-center">
+                        <a href="{{ image.pic_url }}" target="_blank">
+                        <img src="{{ image.pic_url }}" height="100">
+                        </a>
+                        <br>
+                        <form action="{% url 'main:pet_delete' %}" method="post" class="text-center">
+                            {% csrf_token %}
+                            <input type="hidden" name="pic_id" value="{{ image.id }}">
+                            <button type="submit" class="btn btn-secondary btn-sm">Delete</button>
+                        </form>
+                        <br>
+                    </p>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+{% endblock %}

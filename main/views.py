@@ -9,7 +9,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 
 from main.models import AnimalImage, AdvUser
@@ -29,10 +29,21 @@ def index(request):
 def cats_page(request):
     cats = CatRequest()
     context = {
-        'cats_url':cats.url,
-        'cats_ext':cats.ext,
+        'cats_url': cats.url,
+        'cats_ext': cats.ext,
+        'cats_save': False,
     }
     return render(request, 'cats.html', context)
+
+
+def dogs_page(request):
+    dogs = DoqRequest()
+    context = {
+        'dogs_url': dogs.url,
+        'dogs_ext': dogs.ext,
+        'dogs_save': False,
+    }
+    return render(request, 'dogs.html', context)
 
 
 def other_page(request, page):
@@ -43,16 +54,41 @@ def other_page(request, page):
     return HttpResponse(template.render(request=request))
 
 
-def upload(request):
-    print(request)
-    print(request.user)
-    print(request.user.pk)
-    print(request.__dict__)
-    # print(page)
-    obj = get_object_or_404(AdvUser, pk=1)
-    # return redirect('/cats/')
-    return redirect('main:cats')
-    # return None
+def cat_save(request):
+    img = AnimalImage()
+    img.user = AdvUser.objects.get(pk=request.user.pk)
+    img.animal_type = request.POST['pet_type']
+    img.pic_url = request.POST['pet_url']
+    img.file_type = request.POST['pet_ext']
+    img.save()
+    context = {
+        'cats_url': request.POST['pet_url'],
+        'cats_ext': request.POST['pet_ext'],
+        'cats_save': True,
+    }
+    return render(request, 'cats.html', context)
+
+
+def dog_save(request):
+    img = AnimalImage()
+    img.user = AdvUser.objects.get(pk=request.user.pk)
+    img.animal_type = request.POST['pet_type']
+    img.pic_url = request.POST['pet_url']
+    img.file_type = request.POST['pet_ext']
+    img.save()
+    context = {
+        'dogs_url': request.POST['pet_url'],
+        'dogs_ext': request.POST['pet_ext'],
+        'dogs_save': True,
+    }
+    return render(request, 'dogs.html', context)
+
+
+def pet_delete(request):
+    pic_id = request.POST['pic_id']
+    pic_inst = AnimalImage.objects.get(pk=pic_id)
+    pic_inst.delete()
+    return redirect('main:pets_list')
 
 
 class DeleteUserView(LoginRequiredMixin, DeleteView):
@@ -115,3 +151,14 @@ class UserLogOutView(LoginRequiredMixin, LogoutView):
 
 class UserLoginView(LoginView):
     template_name = 'login.html'
+
+
+class PetsListListView(LoginRequiredMixin, ListView):
+    model = AnimalImage
+    template_name = 'pets_list.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user_id=self.request.user.id)
+        return queryset
+
